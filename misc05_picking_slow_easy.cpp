@@ -379,11 +379,11 @@ void drawScene(void)
 
                         tangentPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         tangentPoints[0].SetColor(colorRed);
-                        //float angle = atan2(tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0]);
-                        //angle += M_PI;
+                        float angle = atan2(tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0]);
+                        angle += M_PI;
                         Vertex vertex[1];
-                        //vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[1] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[1] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
                         tangentPoints[1].SetCoords(vertex[0].XYZW);
                         tangentPoints[1].SetColor(colorRed);
                         createVAOs(tangentPoints, pIndices, sizeof(tangentPoints), sizeof(pIndices), 6);
@@ -394,7 +394,10 @@ void drawScene(void)
 
                         normalPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         normalPoints[0].SetColor(colorGreen);
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + (-tVerticesArray[pointCount].XYZW[1]) * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        angle = atan2(tVerticesArray[pointCount].XYZW[0], -tVerticesArray[pointCount].XYZW[1]);
+                        angle += M_PI;
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + (-tVerticesArray[pointCount].XYZW[1]) * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
                         normalPoints[1].SetCoords(vertex[0].XYZW);
                         normalPoints[1].SetColor(colorGreen);
                         createVAOs(normalPoints, pIndices, sizeof(normalPoints), sizeof(pIndices), 7);
@@ -406,8 +409,12 @@ void drawScene(void)
                         binormalPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         binormalPoints[0].SetColor(colorBlue);
                         //vertex[0] = {{-tVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
-                        glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(normalPoints[1].XYZW[0], normalPoints[1].XYZW[1], normalPoints[1].XYZW[2]));
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + crossProduct.x, bVerticesArray[pointCount].XYZW[1] + crossProduct.y, crossProduct.z, 1.0f}, {1.0f}};
+                        //glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(normalPoints[1].XYZW[0], normalPoints[1].XYZW[1], normalPoints[1].XYZW[2]));
+                        glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(-tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0], normalPoints[1].XYZW[2]));
+                        angle = atan2(crossProduct.z, crossProduct.x);
+                        angle += M_PI;
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], bVerticesArray[pointCount].XYZW[1], sin(angle) + crossProduct.z, 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + crossProduct.x, bVerticesArray[pointCount].XYZW[1] + crossProduct.y, crossProduct.z, 1.0f}, {1.0f}};
                         binormalPoints[1].SetCoords(vertex[0].XYZW);
                         binormalPoints[1].SetColor(colorBlue);
                         createVAOs(binormalPoints, pIndices, sizeof(binormalPoints), sizeof(pIndices), 8);
@@ -511,11 +518,11 @@ void drawScene(void)
 
                         tangentPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         tangentPoints[0].SetColor(colorRed);
-                        //float angle = atan2(tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0]);
-                        //angle += M_PI;
+                        float angle = atan2(tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0]);
+                        angle += M_PI;
                         Vertex vertex[1];
-                        //vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[1] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[1] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
                         tangentPoints[1].SetCoords(vertex[0].XYZW);
                         tangentPoints[1].SetColor(colorRed);
                         createVAOs(tangentPoints, pIndices, sizeof(tangentPoints), sizeof(pIndices), 6);
@@ -526,8 +533,10 @@ void drawScene(void)
 
                         normalPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         normalPoints[0].SetColor(colorGreen);
-                        //vertex[0] = {{-tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + (-tVerticesArray[pointCount].XYZW[1]) * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        angle = atan2(tVerticesArray[pointCount].XYZW[0], -tVerticesArray[pointCount].XYZW[1]);
+                        angle += M_PI;
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + (-tVerticesArray[pointCount].XYZW[1]) * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
                         normalPoints[1].SetCoords(vertex[0].XYZW);
                         normalPoints[1].SetColor(colorGreen);
                         createVAOs(normalPoints, pIndices, sizeof(normalPoints), sizeof(pIndices), 7);
@@ -539,9 +548,12 @@ void drawScene(void)
                         binormalPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         binormalPoints[0].SetColor(colorBlue);
                         //vertex[0] = {{-tVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
-                        glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(normalPoints[1].XYZW[0], normalPoints[1].XYZW[1], normalPoints[1].XYZW[2]));
-                        //vertex[0] = {{crossProduct.x, crossProduct.y, crossProduct.z, 1.0f}, {1.0f}};
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + crossProduct.x, bVerticesArray[pointCount].XYZW[1] + crossProduct.y, crossProduct.z, 1.0f}, {1.0f}};
+                        //glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(normalPoints[1].XYZW[0], normalPoints[1].XYZW[1], normalPoints[1].XYZW[2]));
+                        glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(-tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0], normalPoints[1].XYZW[2]));
+                        angle = atan2(crossProduct.z, crossProduct.x);
+                        angle += M_PI;
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], bVerticesArray[pointCount].XYZW[1], sin(angle) + crossProduct.z, 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + crossProduct.x, bVerticesArray[pointCount].XYZW[1] + crossProduct.y, crossProduct.z, 1.0f}, {1.0f}};
                         binormalPoints[1].SetCoords(vertex[0].XYZW);
                         binormalPoints[1].SetColor(colorBlue);
                         createVAOs(binormalPoints, pIndices, sizeof(binormalPoints), sizeof(pIndices), 8);
@@ -624,11 +636,11 @@ void drawScene(void)
 
                         tangentPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         tangentPoints[0].SetColor(colorRed);
-                        //float angle = atan2(tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0]);
-                        //angle += M_PI;
+                        float angle = atan2(tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0]);
+                        angle += M_PI;
                         Vertex vertex[1];
-                        //vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[1] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[1] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
                         tangentPoints[1].SetCoords(vertex[0].XYZW);
                         tangentPoints[1].SetColor(colorRed);
                         createVAOs(tangentPoints, pIndices, sizeof(tangentPoints), sizeof(pIndices), 6);
@@ -639,8 +651,10 @@ void drawScene(void)
 
                         normalPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         normalPoints[0].SetColor(colorGreen);
-                        //vertex[0] = {{-tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + (-tVerticesArray[pointCount].XYZW[1]) * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        angle = atan2(tVerticesArray[pointCount].XYZW[0], -tVerticesArray[pointCount].XYZW[1]);
+                        angle += M_PI;
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], sin(angle) + bVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + (-tVerticesArray[pointCount].XYZW[1]) * 5, bVerticesArray[pointCount].XYZW[1] + tVerticesArray[pointCount].XYZW[0] * 5, bVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
                         normalPoints[1].SetCoords(vertex[0].XYZW);
                         normalPoints[1].SetColor(colorGreen);
                         createVAOs(normalPoints, pIndices, sizeof(normalPoints), sizeof(pIndices), 7);
@@ -652,9 +666,12 @@ void drawScene(void)
                         binormalPoints[0].SetCoords(bVerticesArray[pointCount].XYZW);
                         binormalPoints[0].SetColor(colorBlue);
                         //vertex[0] = {{-tVerticesArray[pointCount].XYZW[1], bVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2], 1.0f}, {1.0f}};
-                        glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(normalPoints[1].XYZW[0], normalPoints[1].XYZW[1], normalPoints[1].XYZW[2]));
-                        //vertex[0] = {{crossProduct.x, crossProduct.y, crossProduct.z, 1.0f}, {1.0f}};
-                        vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + crossProduct.x, bVerticesArray[pointCount].XYZW[1] + crossProduct.y, crossProduct.z, 1.0f}, {1.0f}};
+                        //glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(normalPoints[1].XYZW[0], normalPoints[1].XYZW[1], normalPoints[1].XYZW[2]));
+                        glm::vec3 crossProduct = glm::cross(glm::vec3(tVerticesArray[pointCount].XYZW[0], tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[2]), glm::vec3(-tVerticesArray[pointCount].XYZW[1], tVerticesArray[pointCount].XYZW[0], normalPoints[1].XYZW[2]));
+                        angle = atan2(crossProduct.z, crossProduct.x);
+                        angle += M_PI;
+                        vertex[0] = {{cos(angle) + bVerticesArray[pointCount].XYZW[0], bVerticesArray[pointCount].XYZW[1], sin(angle) + crossProduct.z, 1.0f}, {1.0f}};
+                        //vertex[0] = {{bVerticesArray[pointCount].XYZW[0] + crossProduct.x, bVerticesArray[pointCount].XYZW[1] + crossProduct.y, crossProduct.z, 1.0f}, {1.0f}};
                         binormalPoints[1].SetCoords(vertex[0].XYZW);
                         binormalPoints[1].SetColor(colorBlue);
                         createVAOs(binormalPoints, pIndices, sizeof(binormalPoints), sizeof(pIndices), 8);
