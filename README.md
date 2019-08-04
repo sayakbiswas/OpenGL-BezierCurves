@@ -1,4 +1,4 @@
-# Computer-Graphics-Project1c
+# OpenGL-BezierCurves
 
 ## Building
 ```
